@@ -71,7 +71,7 @@ class Editorial {
         
        echo "keyword = ".$keyword. "storeToEditorial (".$log.")";
 
-    }
+    } 
     
     function fetchFromEditorial($link) {
         global $heroimgs;
