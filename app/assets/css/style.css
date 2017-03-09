@@ -13,17 +13,13 @@
   text-rendering: optimizeLegibility; }
 
 html {
-  font-size: 62.5%;
-  background: radial-gradient(ellipse at center, #F7F6F0 0, #c2ba8c 80%, #b0a66b 100%); }
+  font-size: 62.5%; }
 
 body {
-  font: 300 13px/1.6 'Helvetica Neue', Helvetica, Arial;
-  color: #444;
-  transition: all .4s .3s ease-in; }
+  font: 300 13px/1.6 'Helvetica Neue', Helvetica, Arial; }
 
 body, html {
-  min-height: 100vh;
-  overflow: hidden; }
+  min-height: 100vh; }
 
 /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 /**

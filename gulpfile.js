@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     cssnano = require('gulp-cssnano'),
     sourcemaps = require('gulp-sourcemaps'),
-    package = require('./package.json');
+    package = require('./package.json'),
+    php = require('gulp-connect-php');
 
 
 var banner = [
@@ -52,13 +53,22 @@ gulp.task('js',function(){
     .pipe(browserSync.reload({stream:true, once: true}));
 });
 
-gulp.task('browser-sync', function() {
-    browserSync.init(null, {
-        server: {
-            baseDir: "app"
-        }
-    });
+gulp.task('php', function() {
+    php.server({ base: "app", port: 80, keepalive: true});
 });
+
+gulp.task('browser-sync', ['php'], function() {
+    browserSync.init(["app"],{
+        
+        proxy: 'localhost/~dsagay/fastshell/app',
+        open: true,
+        notify: true
+    }
+    );
+});
+
+// access url http://localhost:3000/~dsagay/fastshell/app/test.php
+
 gulp.task('bs-reload', function () {
     browserSync.reload();
 });
@@ -66,5 +76,5 @@ gulp.task('bs-reload', function () {
 gulp.task('default', ['css', 'js', 'browser-sync'], function () {
     gulp.watch("src/scss/**/*.scss", ['css']);
     gulp.watch("src/js/*.js", ['js']);
-    gulp.watch("app/*.html", ['bs-reload']);
+    gulp.watch(["app/*.php", "app/*.html"], ['bs-reload']);
 });
