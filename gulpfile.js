@@ -9,7 +9,10 @@ var gulp = require('gulp'),
     cssnano = require('gulp-cssnano'),
     sourcemaps = require('gulp-sourcemaps'),
     package = require('./package.json'),
-    php = require('gulp-connect-php');
+    php = require('gulp-connect-php'),
+
+    notify = require("gulp-notify"),
+    bower = require('gulp-bower');
 
 
 var banner = [
@@ -24,6 +27,7 @@ var banner = [
   '\n'
 ].join('');
 
+
 gulp.task('css', function () {
     return gulp.src('src/scss/style.scss')
     .pipe(sourcemaps.init())
@@ -35,7 +39,8 @@ gulp.task('css', function () {
     .pipe(header(banner, { package : package }))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('app/assets/css'))
-    .pipe(browserSync.reload({stream:true}));
+    .pipe(browserSync.reload({stream:true}))
+
 });
 
 gulp.task('js',function(){

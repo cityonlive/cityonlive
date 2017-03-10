@@ -6,12 +6,12 @@
 
     $loc="GB";//$_GET["loc"];
     $token = "d12ca556-c9d7-4bb8-ab53-6b51affadae3";
-    //$str = "assets/data/feed.js";
+    $str = "assets/data/feed.js";
     //$str='http://webhose.io/search?token='.$token.'&format=json&q='.$keyword.'%20language%3A(english)%20performance_score%3A%3E1%20(site_type%3Anews)&sort=social.facebook.likes';
-    //$str = 'http://webhose.io/search?token=d12ca556-c9d7-4bb8-ab53-6b51affadae3&format=json&q='.$keyword.'%20language%3A(english)%20(site_type%3Anews)&sort=relevancy';
+    //$str = 'http://webhose.io/search?token=d1 2ca556-c9d7-4bb8-ab53-6b51affadae3&format=json&q='.$keyword.'%20language%3A(english)%20(site_type%3Anews)&sort=relevancy';
     //$str = 'http://webhose.io/search?token=d12ca556-c9d7-4bb8-ab53-6b51affadae3&format=json&q='.$keyword.' language%3A(english)%20performance_score%3A%3E4%20(site_type%3Anews)&sort=relevancy&ts=1489363200';
 
-$str = 'http://webhose.io/search?token=d12ca556-c9d7-4bb8-ab53-6b51affadae3&format=json&q='.$keyword.'%20language%3A(english)%20performance_score%3A%3E1%20(site_type%3Anews)';
+//$str = 'http://webhose.io/search?token=d12ca556-c9d7-4bb8-ab53-6b51affadae3&format=json&q='.$keyword.'%20language%3A(english)%20performance_score%3A%3E1%20(site_type%3Anews)';
     $str = file_get_contents($str);
     $json = json_decode($str, true);
 
