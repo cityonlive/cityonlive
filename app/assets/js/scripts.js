@@ -8,10 +8,11 @@
  */
 (function ($, window, document, undefined) {
 
-  'use strict';
+    'use strict';
 
-  $(function () {
-    // FastShell
-  });
+    $(function () {
+
+        // FastShell
+    });
 
 })(jQuery, window, document);

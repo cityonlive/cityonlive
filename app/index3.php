@@ -67,11 +67,11 @@
                 background: red;
                 color: white;
             }
-            
+
             .masonry.hide {
                 display: none
             }
-            
+
             .masonry {
                 /* Masonry container */
                 column-count: 5;
@@ -83,7 +83,7 @@
                 top: -44px;
                 left: -13px;
             }
-            
+
             .caption {
                 position: absolute;
                 bottom: 0;
@@ -96,7 +96,7 @@
                 opacity: .7;
                 padding: 15px;
             }
-            
+
             .item {
                 /* Masonry bricks or child elements */
                 background-color: #eee;
@@ -105,7 +105,7 @@
                 width: 100%;
                 border: 0;
             }
-            
+
             .hero-container {
                 overflow: hidden;
                 --width: 600px;
@@ -127,13 +127,13 @@
                 filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#c0c0c0', GradientType=1);
                 /* ie6-9 */
             }
-            
+
             .text img {
                 width: 230px;
                 float: left;
                 margin-bottom: 15px;
             }
-            
+
             .text {
                 float: left;
                 width: 270px;
@@ -146,21 +146,21 @@
                 height: 447px;
                 overflow: hidden;
             }
-            
+
             .main {
                 margin: 100px;
                 --width: 900px;
             }
-            
+
             h2 {
                 color: black;
                 margin-top: 0;
             }
-            
+
             ul {
                 padding-left: 0px;
             }
-            
+
             .hero-img {
                 -webkit-transform: rotate(-7deg);
                 border: 1px solid #999;

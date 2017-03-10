@@ -66,6 +66,7 @@ class Editorial {
         $social = mysqli_real_escape_string($link, $social);
         $locations = mysqli_real_escape_string($link, $locations);
 
+
         if (mysqli_query($link, "INSERT INTO EDITORIAL (UUID, TITLE, TEXT, IMG, PUB_DATE, CRAWL_DATE, KEYWORD, SITE, SITE_COUNTRY, SOCIAL, LOCATIONS) SELECT  '$uuid', '$title', '$text', '$img', '$pdate', '$cdate', '$keyword', '$site', '$country', '$social', '$locations'  WHERE NOT EXISTS ( SELECT 1 FROM EDITORIAL WHERE UUID = '$uuid')")){   
 
            $log += $log . mysqli_affected_rows($link);

@@ -23,6 +23,7 @@ class Editorial {
     }
     
     function fetchFromSource($link) {
+        $log = "";
         foreach ($this->json['posts'] as $field => $value) {
 
             $uuid = $value['uuid'];
@@ -45,7 +46,7 @@ class Editorial {
             
                 
         //insert into db    
-            $log = $log + $this->storeToEditorial($uuid, $title, $text, $img, $pdate, $cdate, $this->keyword, $site, $country, $social, $locations, $link);
+            $log = $log . $this->storeToEditorial($uuid, $title, $text, $img, $pdate, $cdate, $this->keyword, $site, $country, $social, $locations, $link);
             //if ($field == 5) break;
         }
         echo "<h1>fetchFromSource (".$field.")</h1>";
@@ -63,13 +64,14 @@ class Editorial {
         $country = mysqli_real_escape_string($link, $country);
         $social = mysqli_real_escape_string($link, $social);
         $locations = mysqli_real_escape_string($link, $locations);
+        echo "hellow";
 
-        if (mysqli_query($link, "INSERT INTO EDITORIAL (UUID, TITLE, TEXT, IMG, PUB_DATE, CRAWL_DATE, KEYWORD, SITE, SITE_COUNTRY, SOCIAL, LOCATIONS) SELECT  '$uuid', '$title', '$text', '$img', '$pdate', '$cdate', '$keyword', '$site', '$country', '$social', '$locations'  WHERE NOT EXISTS ( SELECT 1 FROM EDITORIAL WHERE UUID = '$uuid')")){   
+        if (mysqli_query($link, "INSERT INTO EDITORIAL (UUID, TITLE, TEXT, IMG, PUB_DATE, CRAWL_DATE, KEYWORD, SITE, SITE_COUNTRY, SOCIAL, LOCATIONS) SELECT * FROM (SELECT '$uuid', '$title', '$text', '$img', '$pdate', '$cdate', '$keyword', '$site', '$country', '$social', '$locations') AS temp WHERE NOT EXISTS ( SELECT UUID FROM EDITORIAL WHERE UUID = '$uuid')")){
 
-           $log += $log . mysqli_affected_rows($link);
+           $log = $log . mysqli_affected_rows($link);
         }
         
-       echo "keyword = ".$keyword. "storeToEditorial (".$log.")";
+       //echo "keyword = ".$keyword. "storeToEditorial (".$log.")";
 
     } 
     
@@ -106,13 +108,13 @@ class Editorial {
                 $this->fetchFromSource($link);
             };
         
-        $this->fetchFromEditorial($link, $keyword);
+        $this->fetchFromEditorial($link);
     }
     
     function comp($i, $img, $title, $text, $pdate, $site, $country, $social, $locations, $cdate) {
         global $heroimgs;
         $img = "<img src='$img' class='item' />";
-        $heroimgs = $heroimgs .$img;
+
         $textArr = explode('. ', $text);
         $li = "";
         
@@ -131,10 +133,9 @@ class Editorial {
         $comp .= "<p>". date('l dS \o\f F Y h:i A', $pdate) ."</p>";
         $comp .= "<p> $site | $country | $social | $locations</p>";
         $comp .= "</div>";
-        
-        
-        
+
         echo $comp;
+        $heroimgs =  $heroimgs . $img;
 
     }
 
