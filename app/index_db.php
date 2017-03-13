@@ -40,7 +40,7 @@
 
 
         <style>
-            .navbar-brand {
+            a.navbar-brand {
                 width: 100px;
                 padding: 0 10px 10px 10px;
             }

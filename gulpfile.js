@@ -4,72 +4,74 @@ var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
-    header  = require('gulp-header'),
+    header = require('gulp-header'),
     rename = require('gulp-rename'),
     cssnano = require('gulp-cssnano'),
     sourcemaps = require('gulp-sourcemaps'),
     package = require('./package.json'),
     php = require('gulp-connect-php'),
 
-    notify = require("gulp-notify"),
-    bower = require('gulp-bower');
+    notify = require("gulp-notify");
 
-
-var banner = [
-  '/*!\n' +
-  ' * <%= package.name %>\n' +
-  ' * <%= package.title %>\n' +
-  ' * <%= package.url %>\n' +
-  ' * @author <%= package.author %>\n' +
-  ' * @version <%= package.version %>\n' +
-  ' * Copyright ' + new Date().getFullYear() + '. <%= package.license %> licensed.\n' +
-  ' */',
-  '\n'
-].join('');
-
+gulp.task('bower', function () {
+    return bower()
+        .pipe(gulp.dest(config.bowerDir))
+});
 
 gulp.task('css', function () {
     return gulp.src('src/scss/style.scss')
-    .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(autoprefixer('last 4 version'))
-    .pipe(gulp.dest('app/assets/css'))
-    .pipe(cssnano())
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(header(banner, { package : package }))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('app/assets/css'))
-    .pipe(browserSync.reload({stream:true}))
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer('last 4 version'))
+        .pipe(gulp.dest('app/assets/css'))
+        .pipe(cssnano())
+        .pipe(rename({
+            suffix: '.min'
+        }))
+
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('app/assets/css'))
+        .pipe(browserSync.reload({
+            stream: true
+        }))
 
 });
 
-gulp.task('js',function(){
-  gulp.src('src/js/scripts.js')
-    .pipe(sourcemaps.init())
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
-    .pipe(header(banner, { package : package }))
-    .pipe(gulp.dest('app/assets/js'))
-    .pipe(uglify())
-    .pipe(header(banner, { package : package }))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('app/assets/js'))
-    .pipe(browserSync.reload({stream:true, once: true}));
+gulp.task('js', function () {
+    gulp.src('src/js/scripts.js')
+        .pipe(sourcemaps.init())
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'))
+
+        .pipe(gulp.dest('app/assets/js'))
+        .pipe(uglify())
+
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('app/assets/js'))
+        .pipe(browserSync.reload({
+            stream: true,
+            once: true
+        }));
 });
 
-gulp.task('php', function() {
-    php.server({ base: "app", port: 80, keepalive: true});
+gulp.task('php', function () {
+    php.server({
+        base: "app",
+        port: 80,
+        keepalive: true
+    });
 });
 
-gulp.task('browser-sync', ['php'], function() {
-    browserSync.init(["app"],{
-        
+gulp.task('browser-sync', ['php'], function () {
+    browserSync.init(["app"], {
+
         proxy: 'localhost/~dsagay/fastshell/app',
         open: true,
         notify: true
-    }
-    );
+    });
 });
 
 // access url http://localhost:3000/~dsagay/fastshell/app/test.php

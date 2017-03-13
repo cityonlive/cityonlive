@@ -39,7 +39,7 @@ class Editorial {
             $social = $value['thread']['social']['facebook']['likes'];
             $lo = "";
             foreach ($value['entities']['locations'] as $f => $v) {
-               $lo = $lo . $v['name']. ", ";
+               $lo = $lo . $v['name']. ",";
             }
             $locations = (string) $lo;
 
@@ -49,7 +49,6 @@ class Editorial {
             $log = $log . $this->storeToEditorial($uuid, $title, $text, $img, $pdate, $cdate, $this->keyword, $site, $country, $social, $locations, $link);
             //if ($field == 5) break;
         }
-        echo "<h1>fetchFromSource (".$field.")</h1>";
     }
 
     private function storeToEditorial($uuid, $title, $text, $img, $pdate, $cdate, $keyword, $site, $country, $social, $locations, $link) {
@@ -64,7 +63,7 @@ class Editorial {
         $country = mysqli_real_escape_string($link, $country);
         $social = mysqli_real_escape_string($link, $social);
         $locations = mysqli_real_escape_string($link, $locations);
-        echo "hellow";
+
 
         if (mysqli_query($link, "INSERT INTO EDITORIAL (UUID, TITLE, TEXT, IMG, PUB_DATE, CRAWL_DATE, KEYWORD, SITE, SITE_COUNTRY, SOCIAL, LOCATIONS) SELECT * FROM (SELECT '$uuid', '$title', '$text', '$img', '$pdate', '$cdate', '$keyword', '$site', '$country', '$social', '$locations') AS temp WHERE NOT EXISTS ( SELECT UUID FROM EDITORIAL WHERE UUID = '$uuid')")){
 
@@ -97,14 +96,14 @@ class Editorial {
     }
     
     function checkEditorial($link) {
-        $fetchInterval = 60; //(24*60*60 sec)
+        $fetchInterval = 6; //(24*60*60 sec)
         
         mysqli_query($link, "select * from M_EDITORIAL WHERE KEYWORD = '".$this->keyword."' AND UPDATED > ". (time() - $fetchInterval) ." ;");
         
             if(mysqli_affected_rows($link) == 0) {
                 mysqli_query($link, "INSERT INTO M_EDITORIAL (KEYWORD, UPDATED) VALUES ('".$this->keyword."', ". time() .") ON DUPLICATE KEY UPDATE UPDATED = ".time().", COUNT = COUNT + 1"); 
                 
-                echo mysqli_affected_rows($link) . "Please wait we are fetching for the keyword <br />".$this->keyword." ...";
+                //echo mysqli_affected_rows($link) . "Please wait we are fetching for the keyword <br />".$this->keyword." ...";
                 $this->fetchFromSource($link);
             };
         
@@ -113,31 +112,60 @@ class Editorial {
     
     function comp($i, $img, $title, $text, $pdate, $site, $country, $social, $locations, $cdate) {
         global $heroimgs;
+        global $high;
+        global $comp;
         $img = "<img src='$img' class='item' />";
 
         $textArr = explode('. ', $text);
         $li = "";
         
         foreach ($textArr as $key => $value) {
-            $trimValue = strlen($value) > 200 ? substr($value ,0, 200)."..." : $value;
+            $trimValue = strlen($value) > 120 ? substr($value ,0, 120)."..." : $value;
             $li .= "<li>".$trimValue."</li>";
             if ($key == 2) break;
         }
         
-        $comp = "";
-        $comp .= "<div class='text'>";
-        $comp .= "<h2>". $i." | " . $title ."</h2>";
-        
-        $comp .= "<div> $img </div>";
-        $comp .= "<ul> $li </ul>";
-        $comp .= "<p>". date('l dS \o\f F Y h:i A', $pdate) ."</p>";
-        $comp .= "<p> $site | $country | $social | $locations</p>";
-        $comp .= "</div>";
+        $locArr = explode(',', rtrim(trim($locations), ','));
+        $locSpan = "";
+        foreach ($locArr as $key => $value) {
+            $locSpan .= "<span class='loc'><a href='".$value."'>".$value."</a></span> ";
+            //if ($key == 2) break;
+        }
 
-        echo $comp;
+
+            if ($i > 1) {
+
+                $comp .= "<div class='text'>";
+                $comp .= "<h2>". $i." | " . $title ."</h2>";
+
+                $comp .= "<div> $img </div>";
+                $comp .= "<ul> $li </ul>";
+                $comp .= "<p>". date('l dS \o\f F Y h:i A', $pdate) ."</p>";
+                $comp .= "<div class='bottom-bar'><span> $site </span> <span>$country </span><br />  $locSpan</div>";
+                $comp .= "</div>";
+
+            }
+        else {
+
+            $high .= "<div>";
+            $high .= "<h2>". $i." | " . $title ."</h2>";
+             $high .= "<div class='tags'><span> $site </span> <span>$country </span><br />  $locSpan</div>";
+
+
+            $high .= "<ul> $li </ul>";
+
+            $high .= "</div>";
+
+        }
+
+
         $heroimgs =  $heroimgs . $img;
 
+
+
     }
+
+
 
 }
  

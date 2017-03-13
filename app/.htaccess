@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^index3\.php$ - [L]
+RewriteRule ^([^/]+)/?$ index3.php?q=$1 [L,QSA]

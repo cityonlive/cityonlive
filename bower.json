@@ -1,0 +1,17 @@
+{
+  "name": "fastshell",
+  "description": "dsf",
+  "main": "index3.php",
+  "authors": [
+    "sdf"
+  ],
+  "license": "sadfs",
+  "keywords": [
+    "nthing"
+  ],
+  "homepage": "index3.php",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7"
+  }
+}
